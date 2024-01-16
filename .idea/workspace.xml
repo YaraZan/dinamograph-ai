@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/database/models/user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Converter/converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/converter/converter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/converter/converter.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_main.http" beforeDir="false" afterPath="$PROJECT_DIR$/test_main.http" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,33 +35,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;FastAPI.dinamogramm-converter.executor&quot;: &quot;Run&quot;,
-    &quot;Python.converter.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/converter.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FastAPI.dinamogramm-converter.executor": "Run",
+    "Python.converter.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/datasets/markers",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\requests" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\requests" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\clear" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\Converter" />
     </key>
   </component>
   <component name="RunManager" selected="FastAPI.dinamogramm-converter">
@@ -130,7 +133,8 @@
       <workItem from="1704978324343" duration="3985000" />
       <workItem from="1705047183902" duration="12209000" />
       <workItem from="1705068666244" duration="537000" />
-      <workItem from="1705291579755" duration="31637000" />
+      <workItem from="1705291579755" duration="31780000" />
+      <workItem from="1705383723951" duration="17066000" />
     </task>
     <servers />
   </component>
