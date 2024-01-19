@@ -1,13 +1,15 @@
-from typing import Annotated
-
-from app.requests.user_create_request import UserCreate
-from app.requests.dinamogramm_mark_request import DinamogrammMarkRequest
+from typing import Annotated, Union
 from fastapi import FastAPI, HTTPException, Header
+
+from app.API.responses import Response
+from app.API.requests import CreateUserRequest
+from app.API.requests import DnmMarkRequest
+from app.API.responces import CreateUserResponce
 from app.database.database import SessionLocal
 from app.converter.converter import get_random_unmarked_dinamogramm
 from app.converter.converter import get_dinamogramm_markers
 from app.converter.converter import mark_dinamogramm
-from app.auth.register import register_user
+from app.auth.auth import register_user
 from app.auth.api_key import validate_api_key
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -24,43 +26,53 @@ app.add_middleware(
 
 app.mount("/datasets", StaticFiles(directory="datasets"), name="datasets")
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @app.get("/")
 def home():
     return {'message': 'home'}
 
+
 @app.post("/register")
-async def register(user: UserCreate):
+async def register(
+        request: CreateUserRequest
+) -> Response:
     try:
-        result = register_user(user=user)
-        return result
+        user = register_user(user=request)
+
+        response = Response(
+            data=user,
+            message="Вы успешно зарегистрировались",
+            status=200
+        )
+
+        return response
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Server Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Ошибка при создании пользователя: {str(e)}")
+
 
 @app.get("/d/{public_id}")
 async def get_unmarked_dinamogram(
         public_id: str,
         x_api_key: Annotated[str | None, Header()] = None
-    ):
+    ) -> Response:
     validate_api_key(x_api_key)
 
-    response = get_random_unmarked_dinamogramm(public_id)
-    if response is not None:
-        return {"data": response, "message": "Успешно"} #FileResponse(filename, media_type="image/png", filename="dinamogram.png")
+    response = Response(
+        data=get_random_unmarked_dinamogramm(public_id),
+        message="Успешно получена динамограмма",
+        status=200
+    )
+
+    if response.data is not None:
+        return response
     else:
-        return HTTPException(status_code=404, detail="Динамограмма не найдена")
+        raise HTTPException(status_code=404, detail="Ошибка при получении динамограммы")
+
 
 @app.post("/d")
 async def mark_dinamogram(
-        request: DinamogrammMarkRequest,
+        request: DnmMarkRequest,
         x_api_key: Annotated[str | None, Header()] = None
-    ):
+    ) -> Response:
     validate_api_key(x_api_key)
 
     try:
@@ -69,17 +81,33 @@ async def mark_dinamogram(
             marker_id=request.marker_id
         )
 
-        return {"data": [], "message": "Успешно маркировано"}
+        response = Response(
+            data=None,
+            message="Успешно промаркеровано",
+            status=200
+        )
+
+        return response
     except Exception:
-        return HTTPException(status_code=404, detail="Возникла ошибка")
+        raise HTTPException(status_code=404, detail="Возникла ошибка")
+
 
 @app.get("/m")
-async def get_markers(x_api_key: Annotated[str | None, Header()] = None):
+async def get_markers(
+        x_api_key: Annotated[str | None, Header()] = None
+    ) -> Response:
     validate_api_key(x_api_key)
 
     try:
-        response = get_dinamogramm_markers()
-        return {"data": response, "message": "Успешно"}
+        markers = get_dinamogramm_markers()
+
+        response = Response(
+            data=markers,
+            message="Успешно промаркеровано",
+            status=200
+        )
+
+        return response
     except Exception:
-        return HTTPException(status_code=404, detail="Возникла ошибка")
+        raise HTTPException(status_code=404, detail="Возникла ошибка при получении маркеров")
 

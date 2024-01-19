@@ -16,7 +16,10 @@ db = SessionLocal()
 
 DATABASE_URL = os.getenv("TRAFFICLIGHT_DATABASE_URL")
 
-def fetch_data(query):
+
+def fetch_data(
+        query: str
+):
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     cursor.execute(query)
@@ -25,14 +28,26 @@ def fetch_data(query):
     conn.close()
     return data
 
-def add_dnm_record(db: Session, dnmh_id: int, authored_id: str, raw_url: str, clear_url: str):
+
+def add_dnm_record(
+        dnmh_id: int,
+        authored_id: str,
+        raw_url: str,
+        clear_url: str
+):
     new_record = Dnm(dnmh_id=dnmh_id, authored_id=authored_id, raw_url=raw_url, clear_url=clear_url)
     db.add(new_record)
     db.commit()
     db.refresh(new_record)
     return new_record.id
 
-def create_and_save_graph(x_values, y_values, output_filename, color=True):
+
+def create_and_save_graph(
+        x_values,
+        y_values,
+        output_filename,
+        color=True
+):
 
     if color:
         plt.plot(x_values, y_values, marker='o', linestyle='-', color='green', label='graph')
@@ -60,7 +75,10 @@ def create_and_save_graph(x_values, y_values, output_filename, color=True):
         fig.savefig(output_filename, format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
         plt.close()
 
-def get_random_unmarked_dinamogramm(user_id: str):
+
+def get_random_unmarked_dinamogramm(
+        user_id: str
+) -> None | dict[str, str]:
     authored_unmarked_dnmh_data = db.query(Dnm).filter(
         (Dnm.authored_id == user_id) & (Dnm.marker_id == None)
     )
@@ -92,7 +110,6 @@ def get_random_unmarked_dinamogramm(user_id: str):
                     b_w_output_filename = f'datasets/clear/{filename}'
 
                     dnm_id = add_dnm_record(
-                        db=db,
                         dnmh_id=dnmh_id,
                         authored_id=user_id,
                         raw_url=color_output_filename,
@@ -108,7 +125,11 @@ def get_random_unmarked_dinamogramm(user_id: str):
         else:
             return None
 
-def mark_dinamogramm(id: int, marker_id: int):
+
+def mark_dinamogramm(
+        id: int,
+        marker_id: int
+):
     dnm_to_mark = db.query(Dnm).filter(Dnm.id == id).first()
 
     output_filename = f'datasets/ready/д_{id}_{marker_id}.png'
@@ -119,6 +140,7 @@ def mark_dinamogramm(id: int, marker_id: int):
         "ready_url": output_filename
     })
     db.commit()
+
 
 def get_dinamogramm_markers():
     markers = []

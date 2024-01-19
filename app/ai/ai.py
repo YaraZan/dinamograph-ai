@@ -20,6 +20,8 @@ from keras.models import load_model
 
 db = SessionLocal()
 
+input_shape = (224, 224, 1)
+
 def augment_image(
         image_path: str,
         output_path: str,
@@ -114,9 +116,6 @@ def load_data(
     return np.array(x_tr), np.array(y_tr)
 
 
-input_shape = (224, 224, 1)
-
-
 def create_new_model(
         version_name: str
 ):
@@ -181,6 +180,8 @@ def predict(
 
     print("Нейросеть думает что это: ", predicted_class.name.split('_'))
     print("На самом деле это: ", actual_class.name.split('_'))
+
+    return { "prediction": predicted_class.name, "actual": actual_class.name }
 
 
 for f in os.listdir('datasets/_train'):

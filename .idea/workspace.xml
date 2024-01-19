@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/ai/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai/ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ai/ai2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ai/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/login.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/register.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/converter/converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/converter/converter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/requests/dinamogramm_get_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/requests/dinamogramm_mark_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/requests/user_create_request.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +38,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2aoI3Y81tVZm3Ww5nEoCDYWUpVK" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -44,7 +54,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/app/ai/test.py",
+    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/app/api/responces",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -60,14 +70,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\responces" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\requests" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\requests" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\clear" />
     </key>
   </component>
@@ -190,7 +201,7 @@
       <workItem from="1705414213919" duration="1000" />
       <workItem from="1705465417906" duration="6538000" />
       <workItem from="1705551812154" duration="25638000" />
-      <workItem from="1705637071916" duration="10282000" />
+      <workItem from="1705637071916" duration="21278000" />
     </task>
     <servers />
   </component>
@@ -204,6 +215,6 @@
     <SUITE FILE_PATH="coverage/dinamogramm_converter$test.coverage" NAME="test Coverage Results" MODIFIED="1705640115478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/dinamogramm_converter$converter.coverage" NAME="converter Coverage Results" MODIFIED="1705066000302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/dinamogramm_converter$dinamogramm_converter.coverage" NAME="dinamogramm-converter Coverage Results" MODIFIED="1705066281230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/dinamogramm_converter$ai.coverage" NAME="ai Coverage Results" MODIFIED="1705646627367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/dinamogramm_converter$ai.coverage" NAME="ai Coverage Results" MODIFIED="1705652132307" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
