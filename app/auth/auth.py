@@ -8,6 +8,7 @@ from app.auth.api_key import generate_api_key
 import uuid
 from app.database.database import SessionLocal
 
+# db
 db = SessionLocal()
 
 def validate_email(email):

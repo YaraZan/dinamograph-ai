@@ -6,16 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai/ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai/ai2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ai/test.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/login.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/register.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/converter/converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/converter/converter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/dinamogramm_get_request.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/dinamogramm_mark_request.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/requests/user_create_request.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +192,7 @@
       <workItem from="1705414213919" duration="1000" />
       <workItem from="1705465417906" duration="6538000" />
       <workItem from="1705551812154" duration="25638000" />
-      <workItem from="1705637071916" duration="21278000" />
+      <workItem from="1705637071916" duration="22074000" />
     </task>
     <servers />
   </component>
