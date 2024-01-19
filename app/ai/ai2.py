@@ -16,15 +16,14 @@ import shutil
 from app.database.database import SessionLocal
 from app.database.models.dnm import Dnm
 from app.database.models.marker import Marker
-from keras.models import load_model
 
 db = SessionLocal()
 
-def augment_image(
-        image_path: str,
-        output_path: str,
-        rotation_angle=2
-):
+categories = db.query(Marker).all()
+markedDnm = db.query(Dnm).filter(Dnm.marker_id is not None)
+
+
+def augment_image(image_path, output_path, rotation_angle=2):
     original_image = Image.open(image_path)
 
     rotated_image = original_image.rotate(rotation_angle)
@@ -32,10 +31,7 @@ def augment_image(
     rotated_image.save(output_path)
 
 
-def balance_dataset(
-        images_path='datasets/ready',
-        processing_path='datasets/_train'
-):
+def balance_dataset(images_path='datasets/ready', processing_path='datasets/_train'):
     # If training session isn't started yet, we create `datasets/_train` directory for
     # current training session
     if not os.path.exists(processing_path):
@@ -71,10 +67,7 @@ def balance_dataset(
             count += 1
 
 
-def preprocess_image(
-        image_path: str,
-        target_size=(224, 224)
-):
+def preprocess_image(image_path, target_size=(224, 224)):
     img = Image.open(image_path)
     img = img.resize(target_size)
 
@@ -89,13 +82,9 @@ def preprocess_image(
     return img_array
 
 
-def load_data(
-        processing_path='datasets/_train',
-        training=False
-):
-    # Balance dataset if its training call
-    if training:
-        balance_dataset()
+def load_data(processing_path='datasets/_train'):
+    # Balance data in dataset
+    balance_dataset()
 
     # Train arrays
     x_tr = []
@@ -114,74 +103,44 @@ def load_data(
     return np.array(x_tr), np.array(y_tr)
 
 
+x_train, y_train = load_data()
+
 input_shape = (224, 224, 1)
 
+classes = sorted(list(set(y_train)))
+num_classes = len(classes)
 
-def create_new_model(
-        version_name: str
-):
-    x_train, y_train = load_data(training=True)
+model = Sequential()
 
-    classes = sorted(list(set(y_train)))
-    num_classes = len(classes)
+# Convolutional layers
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 
-    model = Sequential()
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
 
-    # Convolutional layers
-    model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (3, 3), activation='relu'))
+model.add(MaxPooling2D((2, 2)))
 
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
+# Flatten layer to transition from convolutional layers to dense layers
+model.add(Flatten())
 
-    model.add(Conv2D(128, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
+# Dense layers
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.5))  # Optional dropout for regularization
+model.add(Dense(256, activation='relu'))
+model.add(Dense(num_classes, activation='softmax'))  # Output layer
 
-    # Flatten layer to transition from convolutional layers to dense layers
-    model.add(Flatten())
+# Compile the model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
 
-    # Dense layers
-    model.add(Dense(512, activation='relu'))
-    model.add(Dropout(0.5))  # Optional dropout for regularization
-    model.add(Dense(256, activation='relu'))
-    model.add(Dense(num_classes, activation='softmax'))  # Output layer
+# Print a summary of the model architecture
+model.summary()
 
-    # Compile the model
-    model.compile(optimizer='adam',
-                  loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy'])
+# Train the model (x_train and y_train are assumed to be your training data)
+model.fit(x_train, LabelEncoder().fit_transform(y_train), epochs=35, validation_split=0.2)
 
-    # Print a summary of the model architecture
-    model.summary()
-
-    # Train the model (x_train and y_train are assumed to be your training data)
-    model.fit(x_train, LabelEncoder().fit_transform(y_train), epochs=35, validation_split=0.2)
-
-    # Save the model
-    model.save(f'd_models/{version_name}.h5')
-
-
-def predict(
-        model_name: str,
-        file_to_predict: str
-):
-    x_train, y_train = load_data()
-
-    classes = sorted(list(set(y_train)))
-
-    model = load_model(f'd_models/{model_name}.h5')
-
-    prediction = model.predict(preprocess_image(file_to_predict))
-
-    file_class = int(file_to_predict.split('_')[-1].split('.')[0])
-    prediction_class = int(classes[np.argmax(prediction)])
-
-    predicted_class = db.query(Marker).filter(Marker.id == prediction_class).first()
-    actual_class = db.query(Marker).filter(Marker.id == file_class).first()
-
-    print("Нейросеть думает что это: ", predicted_class.name.split('_'))
-    print("На самом деле это: ", actual_class.name.split('_'))
-
-
-for f in os.listdir('datasets/_train'):
-    predict('d_v1', f'datasets/_train/{f}')
+# Save the model
+model.save('d_models/d_v1.h5')

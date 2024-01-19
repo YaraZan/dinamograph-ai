@@ -4,6 +4,10 @@ __pycache__/
 .venv/
 venv/
 
+datasets/
+
+d_models/
+
 .env
 
 alembic.ini
