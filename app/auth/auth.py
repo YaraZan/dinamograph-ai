@@ -1,15 +1,14 @@
 import re
-from typing import Any
 from passlib.hash import bcrypt
 from fastapi import HTTPException
-from app.API.requests import CreateUserRequest, LoginUserRequest
-from app.database.models.user import User
+from app.api.endpoints import CreateUserRequest, LoginUserRequest
+from database.models import User
 from app.auth.api_key import generate_api_key
 import uuid
-from app.database.database import SessionLocal
+from database.database import SessionLocal
 
-# db
 db = SessionLocal()
+
 
 def validate_email(email):
     return re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email)
@@ -54,5 +53,5 @@ def login_user(
         raise HTTPException(status_code=404, detail="Пароли не совпадают!")
 
     return { "public_id": matching_user.public_id, "name": matching_user.name,
-             "email":matching_user.email, "api_key": matching_user.api_key }
+             "email":matching_user.email, "api_key": matching_user.api_key, "role": matching_user.role }
 

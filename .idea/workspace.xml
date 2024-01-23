@@ -5,8 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api/v1/dnm.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/v1/marker.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/v1/user.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/alembic/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/requests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/requests/d.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/requests/m.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/requests/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/responses/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/API/responses/responce.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ai/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/ai/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/ai/ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/api_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/api_key.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/auth/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/jwt.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/jwt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/converter/converter.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/converter/converter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/models/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/models/dnm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/models/marker.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/models/marker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database/models/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +74,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/app/api/responces",
+    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/exceptions",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,16 +90,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\exceptions" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\service\meta" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\responces" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\requests" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\markers" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\auth" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\datasets\clear" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api_\v1" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\API" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\API\endpoints" />
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\API\requests\u" />
     </key>
   </component>
   <component name="RunManager" selected="Python.ai">
@@ -122,30 +153,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python">
-      <module name="dinamogramm-converter" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11 (dinamogramm-converter) (2)" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/ai/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="dinamogramm-converter" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
       <module name="dinamogramm-converter" />
@@ -164,7 +171,6 @@
     </configuration>
     <list>
       <item itemvalue="FastAPI.dinamogramm-converter" />
-      <item itemvalue="Python.test" />
       <item itemvalue="Python.ai" />
       <item itemvalue="Python.converter" />
     </list>
@@ -192,7 +198,9 @@
       <workItem from="1705414213919" duration="1000" />
       <workItem from="1705465417906" duration="6538000" />
       <workItem from="1705551812154" duration="25638000" />
-      <workItem from="1705637071916" duration="22074000" />
+      <workItem from="1705637071916" duration="23217000" />
+      <workItem from="1705901518970" duration="11254000" />
+      <workItem from="1705983424066" duration="22101000" />
     </task>
     <servers />
   </component>
@@ -201,6 +209,17 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/.venv/Lib/site-packages/fastapi/__init__.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/dinamogramm_converter$test.coverage" NAME="test Coverage Results" MODIFIED="1705640115478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

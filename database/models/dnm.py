@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from app.database.database import Base
+from database.database import Base
 
 class Dnm(Base):
     __tablename__ = "dnm"

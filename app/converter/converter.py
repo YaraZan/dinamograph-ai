@@ -1,11 +1,10 @@
 import psycopg2
 import matplotlib.pyplot as plt
-from sqlalchemy.orm import Session
 import shutil
 
-from app.database.models.dnm import Dnm
-from app.database.models.marker import Marker
-from app.database.database import SessionLocal
+from database.models import Dnm
+from database.models import Marker
+from database.database import SessionLocal
 
 import os
 from dotenv import load_dotenv

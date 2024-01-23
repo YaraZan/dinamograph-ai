@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from app.database.database import Base
+from database.database import Base
 
 class Marker(Base):
     __tablename__ = "markers"
