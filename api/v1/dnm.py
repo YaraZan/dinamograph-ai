@@ -1,53 +1,27 @@
 from typing import Annotated
+from fastapi import APIRouter, Depends
 
-from pydantic import BaseModel
-from fastapi import APIRouter, Header, HTTPException
+from schemas.dnm import DnmGetRandomResponse, DnmMarkRequest
+from service.impl import dnm_service
+from service.impl.dnm_service import DnmService
 
-from api.v1.response import Response
-from app.auth import validate_api_key
-from app.converter.converter import get_random_unmarked_dinamogramm, mark_dinamogramm
-
-
+# Create router instance
 router = APIRouter()
 
-@router.get("/{public_id}")
-async def get_unmarked_dinamogram(
+
+@router.get("/dnm/{public_id}", response_model=DnmGetRandomResponse)
+def get_random_dnm(
         public_id: str,
-        x_api_key: Annotated[str | None, Header()] = None
-    ) -> Response:
-    validate_api_key(x_api_key)
-
-    response = Response(
-        data=get_random_unmarked_dinamogramm(public_id),
-        message="Успешно получена динамограмма",
-        status=200
-    )
-
-    if response.data is not None:
-        return response
-    else:
-        raise HTTPException(status_code=404, detail="Ошибка при получении динамограммы")
+        dnm_service: DnmService = Depends(DnmService)
+    ) -> DnmGetRandomResponse:
+    """ Get random dinamogram based on user public id """
+    return dnm_service.get_random_dnm(public_id)
 
 
-@router.post("/")
-async def mark_dinamogram(
-        request: DnmMarkRequest,
-        x_api_key: Annotated[str | None, Header()] = None
-    ) -> Response:
-    validate_api_key(x_api_key)
-
-    try:
-        mark_dinamogramm(
-            id=request.id,
-            marker_id=request.marker_id
-        )
-
-        response = Response(
-            data=None,
-            message="Успешно промаркеровано",
-            status=200
-        )
-
-        return response
-    except Exception:
-        raise HTTPException(status_code=404, detail="Возникла ошибка")
+@router.post("/dnm/", response_model=None)
+def mark_dnm(
+        marking_data: DnmMarkRequest,
+        dnm_service: DnmService = Depends(DnmService)
+    ) -> None:
+    """ Mark dinamogram based on given id and marker """
+    return dnm_service.mark_dnm(marking_data)

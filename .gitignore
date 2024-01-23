@@ -4,9 +4,9 @@ __pycache__/
 .venv/
 venv/
 
-datasets/
+storage/datasets/
 
-d_models/
+storage/ai_models/
 
 .env
 

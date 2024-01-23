@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import re
 
+from fastapi import Depends
+
 from schemas.user import UserRegistrationRequest, UserLoginRequest, UserRegistrationResponse, UserLoginResponse
 from service.impl.auth_service import AuthService
 
@@ -20,7 +22,7 @@ class UserServiceMeta(ABC):
     def register_user(
             self,
             user: UserRegistrationRequest,
-            auth_service: AuthService
+            auth_service: AuthService = Depends(AuthService)
     ) -> UserRegistrationResponse:
         pass
 
@@ -28,7 +30,7 @@ class UserServiceMeta(ABC):
     def login_user(
             self,
             user: UserLoginRequest,
-            auth_service: AuthService
+            auth_service: AuthService = Depends(AuthService)
     ) -> UserLoginResponse:
         pass
 

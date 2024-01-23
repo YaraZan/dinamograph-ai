@@ -1,60 +1,24 @@
-from pydantic import BaseModel
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
-from api.v1.response import Response
-from app.auth.auth import register_user, login_user
-from app.auth.jwt import tokenize
+from exceptions.user import InvalidEmailError, PasswordsMatchError, EmailExistsError
+from schemas.user import UserRegistrationRequest, UserRegistrationResponse
+from service.impl.user_service import UserService
 
+# Create router instance
 router = APIRouter()
 
 
-class CreateUserRequest(BaseModel):
-    name: str
-    email: str
-    password: str
-    confirm_password: str
-
-
-class LoginUserRequest(BaseModel):
-    email: str
-    password: str
-
-
-@router.post("/register")
-async def register(
-        request: CreateUserRequest
-) -> Response:
+@router.post("/user/register", response_model=UserRegistrationResponse)
+def get_random_dnm(
+        registration_request: UserRegistrationRequest,
+        user_service: UserService = Depends(UserService)
+    ) -> UserRegistrationResponse:
+    """ Get random dinamogram based on user public id """
     try:
-        user = register_user(user=request)
-
-        response = Response(
-            data=user,
-            message="Вы успешно зарегистрировались",
-            status=200
-        )
-
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ошибка при создании пользователя: {str(e)}")
-
-
-@router.post("/login")
-async def register(
-        request: LoginUserRequest
-) -> Response:
-    try:
-        user = login_user(user=request)
-
-        response = Response(
-            data={
-                'token': tokenize({
-                    'user': user,
-                })
-            },
-            message="Вы успешно авторизовались",
-            status=200
-        )
-
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ошибка при создании пользователя: {str(e)}")
+        return user_service.register_user(registration_request)
+    except PasswordsMatchError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают!")
+    except EmailExistsError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Аккаунт с такой почтой уже зарегистрирован!")
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Не удаётся зарегистрировать пользователя")

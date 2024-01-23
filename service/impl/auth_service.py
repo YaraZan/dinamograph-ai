@@ -12,12 +12,12 @@ from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from jwt import ExpiredSignatureError, InvalidTokenError
 
-from database.database import SessionLocal
+from database.database import MainSession
 from database.models import User
 from service.meta.auth_service_meta import AuthServiceMeta
 
 # Create database instance
-db = SessionLocal()
+db = MainSession()
 
 # Load environment variables
 load_dotenv()

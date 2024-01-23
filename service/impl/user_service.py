@@ -1,11 +1,12 @@
 import re
 
 from dotenv import load_dotenv
+from fastapi import Depends
 
 from database.database import MainSession
 from database.models import User, Role
-from exceptions import InvalidEmailError, PasswordsMatchError, InvalidPasswordError, EmailExistsError, \
-    UserDoesntExistError
+from exceptions.user import InvalidEmailError, PasswordsMatchError, EmailExistsError, UserDoesntExistError
+from exceptions.auth import InvalidPasswordError
 from schemas.role import RoleResponse
 from schemas.user import UserRegistrationRequest, UserRegistrationResponse, UserLoginRequest, UserLoginResponse
 from service.impl.auth_service import AuthService
@@ -30,7 +31,7 @@ class UserService(UserServiceMeta):
     def register_user(
             self,
             user: UserRegistrationRequest,
-            auth_service: AuthService
+            auth_service: AuthService = Depends(AuthService)
     ) -> UserRegistrationResponse:
         # Check if email has invalid format
         if not self.validate_email(user.email):
@@ -78,7 +79,7 @@ class UserService(UserServiceMeta):
     def login_user(
             self,
             user: UserLoginRequest,
-            auth_service: AuthService
+            auth_service: AuthService = Depends(AuthService)
     ) -> UserLoginResponse:
         # Check if email has invalid format
         if not self.validate_email(user.email):

@@ -1,4 +1,6 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
+
 from database.database import Base
 
 class Marker(Base):
@@ -7,3 +9,5 @@ class Marker(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String)
     url = Column(String)
+
+    dnms = relationship('Dnm', back_populates='marker')

@@ -8,3 +8,6 @@ class MarkerResponse(BaseModel):
     name: str
     url: str
 
+
+class MarkerGetAllResponse(BaseModel):
+    markers: List[MarkerResponse]
