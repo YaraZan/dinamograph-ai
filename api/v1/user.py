@@ -1,24 +1,27 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 
-from exceptions.user import InvalidEmailError, PasswordsMatchError, EmailExistsError
-from schemas.user import UserRegistrationRequest, UserRegistrationResponse
+from handlers.user import handle_register_exceptions, handle_login_exceptions
+from schemas.auth import TokenResponse
+from schemas.user import UserRegistrationRequest, UserLoginRequest
 from service.impl.user_service import UserService
 
 # Create router instance
 router = APIRouter()
 
 
-@router.post("/user/register", response_model=UserRegistrationResponse)
-def get_random_dnm(
+@router.post("/user/register", response_model=TokenResponse)
+def register_user(
         registration_request: UserRegistrationRequest,
         user_service: UserService = Depends(UserService)
-    ) -> UserRegistrationResponse:
+) -> TokenResponse:
     """ Get random dinamogram based on user public id """
-    try:
-        return user_service.register_user(registration_request)
-    except PasswordsMatchError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают!")
-    except EmailExistsError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Аккаунт с такой почтой уже зарегистрирован!")
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Не удаётся зарегистрировать пользователя")
+    return handle_register_exceptions(registration_request, user_service)
+
+
+@router.post("/user/login", response_model=TokenResponse)
+def login_user(
+        login_request: UserLoginRequest,
+        user_service: UserService = Depends(UserService)
+) -> TokenResponse:
+    """ Get random dinamogram based on user public id """
+    return handle_login_exceptions(login_request, user_service)

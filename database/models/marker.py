@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from database.database import Base
 
+
 class Marker(Base):
     __tablename__ = "markers"
 
