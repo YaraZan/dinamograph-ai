@@ -4,9 +4,11 @@ __pycache__/
 .venv/
 venv/
 
-storage/datasets/
+ai/versions/
+alembic/
 
-storage/ai_models/
+.storage/
+storage/
 
 .env
 
