@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+
+.venv/
+venv/
+
+ai/versions/
+alembic/
+
+storage/datasets/
+
+.env
+
+alembic.ini
+
+__pycache__
