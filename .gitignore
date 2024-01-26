@@ -4,14 +4,13 @@ __pycache__/
 .venv/
 venv/
 
-ai/versions/
+.env
 
-alembic/
+ai/versions/
 
 storage/datasets/
 
-.env
-
+alembic/
 alembic.ini
 
 __pycache__
