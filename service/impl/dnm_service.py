@@ -62,7 +62,7 @@ class DnmService(DnmServiceMeta):
 
         if matching_dnm is not None:
             matching_dnm_response = DnmGetRandomResponse(
-                dnm_id=matching_dnm.id,
+                id=matching_dnm.id,
                 url=matching_dnm.raw_url
             )
             return matching_dnm_response
@@ -100,7 +100,7 @@ class DnmService(DnmServiceMeta):
                 main_database.commit()
 
                 matching_dnm_response = DnmGetRandomResponse(
-                    dnm_id=new_dnm.id,
+                    id=new_dnm.id,
                     url=new_dnm.raw_url
                 )
 
@@ -117,7 +117,7 @@ class DnmService(DnmServiceMeta):
             NoDnmDataError: Raised if given dinamogramm doesn't have any points to display
             InvalidMarkerError: Raised if given marker doesn't exist
         """
-        matching_dnm = main_database.query(Dnm).filter(Dnm.id == marking_data.dnm_id).first()
+        matching_dnm = main_database.query(Dnm).filter(Dnm.id == marking_data.id).first()
         matching_marker = main_database.query(Marker).filter(Marker.id == marking_data.marker_id).first()
 
         if matching_dnm is None:
@@ -129,7 +129,7 @@ class DnmService(DnmServiceMeta):
         if matching_dnm.marker is not None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
 
-        output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marking_data.dnm_id}_{marking_data.marker_id}.png'
+        output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marking_data.id}_{marking_data.marker_id}.png'
 
         shutil.copy(matching_dnm.clear_url, output_filename)
 

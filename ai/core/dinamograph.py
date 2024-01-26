@@ -28,6 +28,11 @@ def create_model(
         model_name: str,
         input_shape: tuple = (224, 224, 1),
 ):
+    x, y = data_helper.load_data()
+
+    markers = sorted(list(set(y)))
+    num_markers = len(markers)
+
     model = Sequential()
 
     model.add(Conv2D(32, (3, 3), activation='relu', input_shape=input_shape))
@@ -44,7 +49,7 @@ def create_model(
     model.add(Dense(512, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(256, activation='relu'))
-    model.add(Dense(1, activation='softmax'))
+    model.add(Dense(num_markers, activation='softmax'))
 
     model.compile(
         optimizer='adam',
@@ -52,19 +57,23 @@ def create_model(
         metrics=['accuracy'],
     )
 
-    model.save(f'ai/versions/{model_name}.h5')
-
-
-def train(model_name: str, epochs: int = 35):
-    x, y = data_helper.load_data()
-
-    model = load_model(f'ai/versions/{model_name}.h5')
-
-    model.fit(x, LabelEncoder().fit_transform(y), epochs=epochs, validation_split=0.2)
+    model.fit(x, LabelEncoder().fit_transform(y), epochs=35, validation_split=0.2)
 
     model.save(f'ai/versions/{model_name}.h5')
 
-    return sorted(list(set(y)))
+    return markers
+
+
+# def train(model_name: str, epochs: int = 35):
+#     x, y = data_helper.load_data()
+#
+#     model = load_model(f'ai/versions/{model_name}.h5')
+#
+#     model.fit(x, LabelEncoder().fit_transform(y), epochs=epochs, validation_split=0.2)
+#
+#     model.save(f'ai/versions/{model_name}.h5')
+#
+#     return sorted(list(set(y)))
 
 
 def predict(model_name: str, image_bytes: bytes):

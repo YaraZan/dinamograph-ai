@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="" />
+    <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai/core/dinamograph.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/core/dinamograph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai/core/model_trainer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai/helpers/data_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/helpers/data_helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schemas/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/dnm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/ai_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/dnm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/dnm_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/meta/ai_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/ai_service_meta.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +189,7 @@
       <workItem from="1706068304449" duration="30607000" />
       <workItem from="1706102426151" duration="2762000" />
       <workItem from="1706155574447" duration="35426000" />
-      <workItem from="1706241043386" duration="2708000" />
+      <workItem from="1706241043386" duration="18536000" />
     </task>
     <servers />
   </component>

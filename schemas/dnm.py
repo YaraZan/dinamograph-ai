@@ -6,10 +6,10 @@ from schemas.marker import MarkerResponse
 
 
 class DnmGetRandomResponse(BaseModel):
-    dnm_id: int
+    id: int
     url: str
 
 
 class DnmMarkRequest(BaseModel):
-    dnm_id: int
+    id: int
     marker_id: int

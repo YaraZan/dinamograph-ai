@@ -159,7 +159,7 @@ class DataHelper:
         y_tr = []
 
         for filename in os.listdir(processing_path):
-            x = image_helper.preprocess_image(image_path=os.path.join(processing_path, filename))
+            x = image_helper.preprocess_image(is_local=True, image_path=os.path.join(processing_path, filename))
             x = np.squeeze(x, axis=0)
 
             y = int(filename.split('_')[-1].split('.')[0])
