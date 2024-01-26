@@ -1,37 +1,47 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+from constants.constants import Constants
+
+# Constants instance
+constants = Constants()
+
 
 class AuthServiceMeta(ABC):
-    """ Api key methods """
+    @abstractmethod
+    def create_api_key(self, user_public_id: str):
+        pass
+
+    @abstractmethod
+    def get_user_api_keys(self, user_public_id: str):
+        pass
+
     @abstractmethod
     def generate_api_key(self, length: int = 32) -> str:
         pass
 
     @abstractmethod
-    def validate_api_key(self, key: str, user_public_id: str) -> bool:
+    def validate_api_key(self, key: str) -> bool:
         pass
 
-    """ JWT token methods """
     @abstractmethod
-    def tokenize(self, payload: Any, exp: int = 10080) -> str:
+    def tokenize(self, payload: dict, exp: int = constants.AUTHORIZATION_TOKEN_LIFETIME) -> str:
         pass
 
     @abstractmethod
     def untokenize(self, key: str) -> Any:
         pass
 
-    """ Encryption methods """
     @abstractmethod
     def hash_password(self, password: str) -> str:
         pass
 
-    """ Validation methods """
     @abstractmethod
     def verify_password(self, password: str, hashed_password: str) -> bool:
         pass
 
-    """ UUID methods """
     @abstractmethod
     def generate_uuid(self) -> str:
         pass
+
+

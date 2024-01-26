@@ -1,6 +1,6 @@
 import enum
-from typing import Optional
-from pydantic import BaseModel
+from typing import Optional, Union, Any
+from pydantic import BaseModel, UUID4
 
 from schemas.role import RoleResponse
 
@@ -12,22 +12,15 @@ class UserRegistrationRequest(BaseModel):
     confirm_password: str
 
 
-class UserRegistrationResponse(BaseModel):
-    public_id: str
-    name: str
-    email: str
-    api_key: str
-    role: Optional[RoleResponse]
-
-
 class UserLoginRequest(BaseModel):
     email: str
     password: str
 
 
-class UserLoginResponse(BaseModel):
-    public_id: str
+class UserResponse(BaseModel):
+    public_id: UUID4
     name: str
     email: str
-    api_key: str
     role: Optional[RoleResponse]
+
+

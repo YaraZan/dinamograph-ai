@@ -1,28 +1,17 @@
-from typing import Annotated
+from fastapi import APIRouter, Depends
 
-from fastapi import APIRouter, Header, HTTPException
+from handlers.dnm import handle_get_random_dnm_exceptions
+from schemas.dnm import DnmGetRandomResponse
+from service.impl.dnm_service import DnmService
 
-from api.v1.response import Response
-from app.auth import validate_api_key
-from app.converter.converter import get_dinamogramm_markers
-
+# Create router instance
 router = APIRouter()
 
-@router.get("/")
-async def get_markers(
-        x_api_key: Annotated[str | None, Header()] = None
-    ) -> Response:
-    validate_api_key(x_api_key)
 
-    try:
-        markers = get_dinamogramm_markers()
+@router.get("/marker/", response_model=DnmGetRandomResponse)
+def get_all_markers(
+        public_id: str,
+        marker_service: DnmService = Depends(DnmService)
+) -> DnmGetRandomResponse:
+    pass
 
-        response = Response(
-            data=markers,
-            message="Успешно промаркеровано",
-            status=200
-        )
-
-        return response
-    except Exception:
-        raise HTTPException(status_code=404, detail="Возникла ошибка при получении маркеров")

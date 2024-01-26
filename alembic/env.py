@@ -6,9 +6,9 @@ from sqlalchemy import pool
 from database.database import Base
 
 from alembic import context
-from database.models import dnm, user, marker, role
+from database.models import dnm, user, marker, role, api_key
 
-models = [dnm.Dnm, marker.Marker, user.User, role.Role]
+models = [dnm.Dnm, marker.Marker, user.User, role.Role, api_key.ApiKey]
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

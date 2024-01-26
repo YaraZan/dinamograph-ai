@@ -12,4 +12,4 @@ class DnmGetRandomResponse(BaseModel):
 
 class DnmMarkRequest(BaseModel):
     dnm_id: int
-    marker: Optional[MarkerResponse]
+    marker_id: int
