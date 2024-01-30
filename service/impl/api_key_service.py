@@ -10,6 +10,7 @@ import jwt
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from jwt import ExpiredSignatureError, InvalidTokenError
+from sqlalchemy.exc import SQLAlchemyError
 
 from constants.constants import Constants
 from database.database import MainSession
@@ -37,26 +38,6 @@ class ApiKeyService(ApiKeyServiceMeta):
         Also includes token, encryption and api_key
         methods
     """
-    def create_api_key(self, user_public_id: str):
-        """
-        Creates new API-key for user
-
-        Parameters:
-            user_public_id (str): Public key of user, trying to authenticate operation
-        """
-        matching_user = db.query(User).filter(User.public_id == user_public_id).first()
-
-        if not matching_user:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Некорректные данные запроса")
-
-        new_api_key = ApiKey(
-            key=self.generate_api_key()
-        )
-        db.add(new_api_key)
-
-        new_api_key.user = matching_user
-        db.commit()
-
     def get_user_api_keys(self, user_public_id: str) -> List[ApiKeyResponse]:
         """
         Returns list of user's API keys
@@ -64,26 +45,98 @@ class ApiKeyService(ApiKeyServiceMeta):
         Parameters:
             user_public_id (str): Public key of user, trying to authenticate operation
         """
-        matching_user = db.query(User).filter(User.public_id == user_public_id).first()
+        try:
+            matching_user = db.query(User).filter(User.public_id == user_public_id).first()
 
-        if not matching_user:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Некорректные данные запроса")
+            if not matching_user:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Некорректные данные запроса")
 
-        user_api_keys = db.query(ApiKey).filter(ApiKey.user == matching_user).all()
+            user_api_keys = db.query(ApiKey).filter(ApiKey.user == matching_user).all()
 
-        api_key_responses = []
+            api_key_responses = []
 
-        for api_key in user_api_keys:
-            api_key_responses.append(
-                ApiKeyResponse(
-                    public_id=api_key.public_id,
-                    key=api_key.key
+            for api_key in user_api_keys:
+                api_key_responses.append(
+                    ApiKeyResponse(
+                        public_id=api_key.public_id,
+                        key=api_key.key
+                    )
                 )
-            )
 
-        return user_api_keys
+            return user_api_keys
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Server: Не удаётся получить API-ключи пользователя")
+        finally:
+            db.close()
 
-    def generate_api_key(self, length: int = 64) -> str:
+    def create_api_key(self, user_public_id: str):
+        """
+        Creates a new API-key for the user.
+
+        Parameters:
+            user_public_id (str): Public key of the user trying to authenticate the operation
+        """
+        try:
+            matching_user = db.query(User).filter(User.public_id == user_public_id).first()
+
+            if not matching_user:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Некорректные данные запроса")
+
+            user_api_keys = db.query(ApiKey).filter(ApiKey.user == matching_user).all()
+
+            if len(user_api_keys) >= 4:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Максимум ключей")
+
+            attempts = 0
+
+            while attempts < constants.DB_MAX_QUERIES:
+                new_api_key = self.generate_api_key()
+
+                existing_key = db.query(ApiKey).filter(ApiKey.key == new_api_key).first()
+
+                if not existing_key:
+                    new_api_key_object = ApiKey(key=new_api_key)
+                    db.add(new_api_key_object)
+                    new_api_key_object.user = matching_user
+                    db.commit()
+                    break
+
+                attempts += 1
+
+            if attempts == constants.DB_MAX_QUERIES:
+                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                    detail="Server: Не удаётся создать уникальный API-ключ")
+
+        except SQLAlchemyError as e:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail=f"Server: Не удаётся создать API-ключ SqlAlchemy: {e}")
+
+        finally:
+            db.close()
+
+    def delete_api_key(self, key_public_id: str):
+        try:
+            matching_api_key = db.query(ApiKey).filter(ApiKey.public_id == key_public_id).first()
+
+            if not matching_api_key:
+                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                    detail="API-ключ не найден")
+
+            db.delete(matching_api_key)
+            db.commit()
+
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Server: Не удаётся удалить API-ключ")
+        finally:
+            db.close()
+
+    @staticmethod
+    def generate_api_key(length: int = 64) -> str:
         """
         Generate api key for user.
 
@@ -96,19 +149,11 @@ class ApiKeyService(ApiKeyServiceMeta):
         characters = string.ascii_letters + string.digits
         api_key = ''.join(secrets.choice(characters) for _ in range(length))
 
-        queries = 0
-
-        while queries < constants.DB_MAX_QUERIES:
-            if not db.query(ApiKey).filter(ApiKey.key == api_key).first():
-                break
-            queries += 1
-
-        if queries == constants.DB_MAX_QUERIES:
-            raise Exception
-
         return api_key
 
-    def validate_api_key(self, key: str):
+
+    @staticmethod
+    def validate_api_key(key: str):
         """
         Validate api key provided by user.
 
@@ -118,10 +163,17 @@ class ApiKeyService(ApiKeyServiceMeta):
         Returns:
             bool: Returns true if api key is valid, false otherwise
         """
-        validated_api_key = db.query(ApiKey).filter(ApiKey.key == key).first()
+        try:
+            validated_api_key = db.query(ApiKey).filter(ApiKey.key == key).first()
 
-        if validated_api_key is None:
-            HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Ошибка доступа")
+            if validated_api_key is None:
+                HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Ошибка доступа")
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Server: Не удаётся проверить подлинность ключа")
+        finally:
+            db.close()
 
 
 

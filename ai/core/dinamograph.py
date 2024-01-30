@@ -27,11 +27,13 @@ data_helper = DataHelper()
 def create_model(
         model_name: str,
         input_shape: tuple = (224, 224, 1),
+        epochs: int = 35
 ):
     x, y = data_helper.load_data()
 
     markers = sorted(list(set(y)))
     num_markers = len(markers)
+    num_images = len(list(x))
 
     model = Sequential()
 
@@ -57,23 +59,11 @@ def create_model(
         metrics=['accuracy'],
     )
 
-    model.fit(x, LabelEncoder().fit_transform(y), epochs=35, validation_split=0.2)
+    model.fit(x, LabelEncoder().fit_transform(y), epochs=epochs, validation_split=0.2)
 
     model.save(f'ai/versions/{model_name}.h5')
 
-    return markers
-
-
-# def train(model_name: str, epochs: int = 35):
-#     x, y = data_helper.load_data()
-#
-#     model = load_model(f'ai/versions/{model_name}.h5')
-#
-#     model.fit(x, LabelEncoder().fit_transform(y), epochs=epochs, validation_split=0.2)
-#
-#     model.save(f'ai/versions/{model_name}.h5')
-#
-#     return sorted(list(set(y)))
+    return num_images, markers
 
 
 def predict(model_name: str, image_bytes: bytes):

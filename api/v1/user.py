@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 
+from middleware.user import current_user
 from schemas.auth import TokenResponse
-from schemas.user import UserRegistrationRequest, UserLoginRequest
+from schemas.user import UserRegistrationRequest, UserLoginRequest, UserResponse
 from service.impl.user_service import UserService
 
 # Create router instance
@@ -24,3 +25,12 @@ async def login_user(
 ) -> TokenResponse:
     """ Get random dinamogram based on user public id """
     return user_service.login_user(login_request)
+
+
+@router.get("/user/me", response_model=UserResponse)
+async def register_user(
+        user_service: UserService = Depends(UserService),
+        user: dict = Depends(current_user),
+) -> UserResponse:
+    """ Get random dinamogram based on user public id """
+    return user_service.get_user_details(user['public_id'])

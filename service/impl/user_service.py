@@ -5,6 +5,7 @@ from datetime import timedelta, datetime
 import bcrypt
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, status
+from sqlalchemy.exc import SQLAlchemyError
 
 from constants.constants import Constants
 from database.database import MainSession
@@ -27,6 +28,7 @@ constants = Constants()
 # Token service instance
 token_service = TokenService()
 
+
 class UserService(UserServiceMeta):
     """
         User service class
@@ -35,30 +37,33 @@ class UserService(UserServiceMeta):
         Used to registrate and login users in application.
 
     """
-    def validate_email(self, email: str) -> bool:
-        """
-        Validate given email.
+    def get_user_details(self, user_public_id: str) -> UserResponse:
+        try:
+            matching_user = db.query(User).filter(User.public_id == user_public_id).first()
 
-        Parameters:
-            email (str): Email to validate
+            if matching_user is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                    detail="Email: Пользователя с такой почтой не существует")
 
-        Returns:
-            bool: A boolean indicating if the email is valid.
-        """
-        return bool(re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email))
+            matching_user_role = RoleResponse(
+                id=matching_user.role.id,
+                name=matching_user.role.name
+            )
 
-    def validate_password(self, password: str, confirm_password: str) -> bool:
-        """
-        Validate if password and it's confirmation matches.
+            user_response = UserResponse(
+                email=matching_user.email,
+                name=matching_user.name,
+                public_id=str(matching_user.public_id),
+                role=matching_user_role,
+            )
 
-        Parameters:
-            password (str): Entered password
-            confirm_password (str): Confirmed password
-
-        Returns:
-            bool: A boolean indicating if passwords match.
-        """
-        return password == confirm_password
+            return user_response
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="Server: Не удаётся получить данные пользователя")
+        finally:
+            db.close()
 
     def register_user(
             self,
@@ -78,43 +83,62 @@ class UserService(UserServiceMeta):
             PasswordsMatchError: Raise if the provided password is invalid
             EmailExistsError: Raise if the provided email is already registered
         """
-        if not self.validate_email(user.email):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный формат почты")
+        try:
+            if not self.validate_email(user.email):
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email: Неверный формат почты")
 
-        if not self.validate_password(user.password, user.confirm_password):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают")
+            if len(user.name) > 255:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                    detail="Name: Слишком длинное имя")
 
-        if db.query(User).filter(User.email == user.email).first() is not None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Аккаунт с такой почтой уже зарегистрирован")
+            if not re.match("^[a-zA-Z0-9_]+$", user.name):
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                    detail="Name: Имя должно содержать только буквы, цифры и символ '_'")
 
-        user_role = db.query(Role).filter(Role.name == "user").first()
+            if not user.name.strip():
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                    detail="Name: В имени не должно быть пробелов")
 
-        new_user = User(
-            email=user.email,
-            name=user.name,
-            password=self.hash_password(user.password),
-            role=user_role
-        )
-        db.add(new_user)
-        db.commit()
+            if not self.validate_password(user.password, user.confirm_password):
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="PasswordMatch: Пароли не совпадают")
 
-        new_user_role = RoleResponse(
-            id=new_user.role.id,
-            name=new_user.role.name
-        )
+            if db.query(User).filter(User.email == user.email).first() is not None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email: Аккаунт с такой почтой уже зарегистрирован")
 
-        user_registration_response = UserResponse(
-            email=new_user.email,
-            name=new_user.name,
-            public_id=str(new_user.public_id),
-            role=new_user_role,
-        )
+            user_role = db.query(Role).filter(Role.name == "user").first()
 
-        token_response = TokenResponse(
-            token=token_service.tokenize(user_registration_response.model_dump())
-        )
+            new_user = User(
+                email=user.email,
+                name=user.name,
+                password=self.hash_password(user.password),
+                role=user_role
+            )
+            db.add(new_user)
+            db.commit()
 
-        return token_response
+            new_user_role = RoleResponse(
+                id=new_user.role.id,
+                name=new_user.role.name
+            )
+
+            user_registration_response = UserResponse(
+                email=new_user.email,
+                name=new_user.name,
+                public_id=str(new_user.public_id),
+                role=new_user_role,
+            )
+
+            token_response = TokenResponse(
+                token=token_service.tokenize(user_registration_response.model_dump())
+            )
+
+            return token_response
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="Server: Не удаётся зарегистрировать пользователя")
+        finally:
+            db.close()
 
     def login_user(
             self,
@@ -134,36 +158,44 @@ class UserService(UserServiceMeta):
             UserDoesntExistError: Raise if user with provided email doesn't exist
             InvalidPasswordError: Raise if the provided password is invalid
         """
-        if not self.validate_email(user.email):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный формат почты")
+        try:
+            if not self.validate_email(user.email):
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email: Неверный формат почты")
 
-        matching_user = db.query(User).filter(User.email == user.email).first()
+            matching_user = db.query(User).filter(User.email == user.email).first()
 
-        if matching_user is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Пользователя с такой почтой не существует")
+            if matching_user is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email: Пользователя с такой почтой не существует")
 
-        if not self.verify_password(user.password, matching_user.password):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный пароль")
+            if not self.verify_password(user.password, matching_user.password):
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password: Неверный пароль")
 
-        matching_user_role = RoleResponse(
-            id=matching_user.role.id,
-            name=matching_user.role.name
-        )
+            matching_user_role = RoleResponse(
+                id=matching_user.role.id,
+                name=matching_user.role.name
+            )
 
-        user_logging_response = UserResponse(
-            email=matching_user.email,
-            name=matching_user.name,
-            public_id=str(matching_user.public_id),
-            role=matching_user_role,
-        )
+            user_logging_response = UserResponse(
+                email=matching_user.email,
+                name=matching_user.name,
+                public_id=str(matching_user.public_id),
+                role=matching_user_role,
+            )
 
-        token_response = TokenResponse(
-            token=token_service.tokenize(user_logging_response.model_dump())
-        )
+            token_response = TokenResponse(
+                token=token_service.tokenize(user_logging_response.model_dump())
+            )
 
-        return token_response
+            return token_response
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="Server: Не удаётся выполнить вход")
+        finally:
+            db.close()
 
-    def hash_password(self, password: str) -> str:
+    @staticmethod
+    def hash_password(password: str) -> str:
         """
         Hashes the provided password using SHA256 algorithm.
 
@@ -178,7 +210,8 @@ class UserService(UserServiceMeta):
 
         return hashed_password.decode('utf-8')
 
-    def verify_password(self, password: str, hashed_password: str) -> bool:
+    @staticmethod
+    def verify_password(password: str, hashed_password: str) -> bool:
         """
         Verifies the provided password against the provided hashed password.
 
@@ -191,7 +224,35 @@ class UserService(UserServiceMeta):
         """
         return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
 
-    def generate_uuid(self) -> str:
+    @staticmethod
+    def validate_email(email: str) -> bool:
+        """
+        Validate given email.
+
+        Parameters:
+            email (str): Email to validate
+
+        Returns:
+            bool: A boolean indicating if the email is valid.
+        """
+        return bool(re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', email))
+
+    @staticmethod
+    def validate_password(password: str, confirm_password: str) -> bool:
+        """
+        Validate if password and it's confirmation matches.
+
+        Parameters:
+            password (str): Entered password
+            confirm_password (str): Confirmed password
+
+        Returns:
+            bool: A boolean indicating if passwords match.
+        """
+        return password == confirm_password
+
+    @staticmethod
+    def generate_uuid() -> str:
         """
         Generates a random UUID
 

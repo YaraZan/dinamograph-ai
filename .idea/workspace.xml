@@ -5,17 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai/core/dinamograph.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/core/dinamograph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/core/model_trainer.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/helpers/data_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/helpers/data_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/v1/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schemas/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/dnm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/api_key.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/api_key.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/dnm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/marker.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/marker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/v1/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/models/ai_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/models/ai_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/models/chat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/models/message.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/schemas/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schemas/chat.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/service/impl/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/ai_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/api_key_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/api_key_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/chat_service.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/service/impl/dnm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/dnm_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/marker_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/marker_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/token_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/impl/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/user_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/meta/ai_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/ai_service_meta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/meta/api_key_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/api_key_service_meta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/meta/chat_service_meta.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/meta/dnm_service_meta.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/meta/user_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/user_service_meta.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,31 +63,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "FastAPI.dinamogramm-converter.executor": "Run",
-    "Python.ai.executor": "Run",
-    "Python.converter.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/handlers",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;FastAPI.dinamogramm-converter.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ai.executor&quot;: &quot;Run&quot;,
+    &quot;Python.converter.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/handlers&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\handlers" />
@@ -189,7 +204,9 @@
       <workItem from="1706068304449" duration="30607000" />
       <workItem from="1706102426151" duration="2762000" />
       <workItem from="1706155574447" duration="35426000" />
-      <workItem from="1706241043386" duration="18536000" />
+      <workItem from="1706241043386" duration="21940000" />
+      <workItem from="1706500602729" duration="17296000" />
+      <workItem from="1706587801913" duration="12349000" />
     </task>
     <servers />
   </component>

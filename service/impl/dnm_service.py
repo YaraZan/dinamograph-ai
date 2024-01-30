@@ -4,6 +4,7 @@ from typing import List, Any
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from matplotlib import pyplot as plt
+from sqlalchemy.exc import SQLAlchemyError
 
 from ai.helpers.data_helper import DataHelper
 from constants.constants import Constants
@@ -51,60 +52,63 @@ class DnmService(DnmServiceMeta):
             NoDnmhDataError: Raised if there's no available dinamogramms in database.
             NoDnmDataError: Raised if given dinamogramm doesn't have any points to display
         """
-        # matching_user = trafficLight_database.query(Dnm).filter(Dnm.authored_id == user_public_id).first()
-        #
-        # if matching_user is None:
-        #     raise UserDoesntExistError
+        try:
+            matching_dnm = main_database.query(Dnm).filter(
+                (Dnm.authored_id == user_public_id) & (Dnm.marker_id == None)
+            ).first()
 
-        matching_dnm = main_database.query(Dnm).filter(
-            (Dnm.authored_id == user_public_id) & (Dnm.marker_id == None)
-        ).first()
-
-        if matching_dnm is not None:
-            matching_dnm_response = DnmGetRandomResponse(
-                id=matching_dnm.id,
-                url=matching_dnm.raw_url
-            )
-            return matching_dnm_response
-
-        dnmh_data = trafficLight_database.query(Dnmh).all()
-
-        if dnmh_data is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Данные динамограмм отсутствуют")
-
-        for dnmh in dnmh_data:
-            matching_dnm = main_database.query(Dnm).filter(Dnm.dnmh_id == dnmh.Id).first()
-
-            if matching_dnm is None:
-                dnm_data = trafficLight_database.query(DnmPoint).filter(DnmPoint.Dnmh_Id == dnmh.Id).order_by(DnmPoint.P).all()
-
-                if dnm_data is None:
-                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
-
-                x_values = [dnm.X for dnm in dnm_data]
-                y_values = [dnm.Y for dnm in dnm_data]
-
-                raw_output_filename = f'{constants.STORAGE_DATASETS_RAW}/д_{dnmh.Id}.png'
-                clear_output_filename = f'{constants.STORAGE_DATASETS_CLEAR}/д_{dnmh.Id}.png'
-
-                data_helper.create_graph(x_values, y_values, raw_output_filename)
-                data_helper.create_graph(x_values, y_values, clear_output_filename, is_colorful=False)
-
-                new_dnm = Dnm(
-                    dnmh_id=dnmh.Id,
-                    authored_id=user_public_id,
-                    raw_url=raw_output_filename,
-                    clear_url=clear_output_filename,
-                )
-                main_database.add(new_dnm)
-                main_database.commit()
-
+            if matching_dnm is not None:
                 matching_dnm_response = DnmGetRandomResponse(
-                    id=new_dnm.id,
-                    url=new_dnm.raw_url
+                    id=matching_dnm.id,
+                    url=matching_dnm.raw_url
                 )
-
                 return matching_dnm_response
+
+            dnmh_data = trafficLight_database.query(Dnmh).all()
+
+            if dnmh_data is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Данные динамограмм отсутствуют")
+
+            for dnmh in dnmh_data:
+                matching_dnm = main_database.query(Dnm).filter(Dnm.dnmh_id == dnmh.Id).first()
+
+                if matching_dnm is None:
+                    dnm_data = trafficLight_database.query(DnmPoint).filter(DnmPoint.Dnmh_Id == dnmh.Id).order_by(DnmPoint.P).all()
+
+                    if dnm_data is None:
+                        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
+
+                    x_values = [dnm.X for dnm in dnm_data]
+                    y_values = [dnm.Y for dnm in dnm_data]
+
+                    raw_output_filename = f'{constants.STORAGE_DATASETS_RAW}/д_{dnmh.Id}.png'
+                    clear_output_filename = f'{constants.STORAGE_DATASETS_CLEAR}/д_{dnmh.Id}.png'
+
+                    data_helper.create_graph(x_values, y_values, raw_output_filename)
+                    data_helper.create_graph(x_values, y_values, clear_output_filename, is_colorful=False)
+
+                    new_dnm = Dnm(
+                        dnmh_id=dnmh.Id,
+                        authored_id=user_public_id,
+                        raw_url=raw_output_filename,
+                        clear_url=clear_output_filename,
+                    )
+                    main_database.add(new_dnm)
+                    main_database.commit()
+
+                    matching_dnm_response = DnmGetRandomResponse(
+                        id=new_dnm.id,
+                        url=new_dnm.raw_url
+                    )
+
+                    return matching_dnm_response
+        except SQLAlchemyError:
+            main_database.rollback()
+            trafficLight_database.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся получить динамограмму")
+        finally:
+            main_database.close()
+            trafficLight_database.close()
 
     def mark_dnm(self, marking_data: DnmMarkRequest):
         """
@@ -117,24 +121,30 @@ class DnmService(DnmServiceMeta):
             NoDnmDataError: Raised if given dinamogramm doesn't have any points to display
             InvalidMarkerError: Raised if given marker doesn't exist
         """
-        matching_dnm = main_database.query(Dnm).filter(Dnm.id == marking_data.id).first()
-        matching_marker = main_database.query(Marker).filter(Marker.id == marking_data.marker_id).first()
+        try:
+            matching_dnm = main_database.query(Dnm).filter(Dnm.id == marking_data.id).first()
+            matching_marker = main_database.query(Marker).filter(Marker.id == marking_data.marker_id).first()
 
-        if matching_dnm is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
+            if matching_dnm is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
 
-        if matching_marker is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный маркер для динамограммы")
+            if matching_marker is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный маркер для динамограммы")
 
-        if matching_dnm.marker is not None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
+            if matching_dnm.marker is not None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
 
-        output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marking_data.id}_{marking_data.marker_id}.png'
+            output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marking_data.id}_{marking_data.marker_id}.png'
 
-        shutil.copy(matching_dnm.clear_url, output_filename)
+            shutil.copy(matching_dnm.clear_url, output_filename)
 
-        matching_dnm.ready_url = output_filename
-        matching_dnm.marker = matching_marker
-        main_database.commit()
+            matching_dnm.ready_url = output_filename
+            matching_dnm.marker = matching_marker
+            main_database.commit()
+        except SQLAlchemyError:
+            main_database.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся промаркеровать динамограмму")
+        finally:
+            main_database.close()
 
 

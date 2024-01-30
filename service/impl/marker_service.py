@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
+from sqlalchemy.exc import SQLAlchemyError
 
 from constants.constants import Constants
 from database.database import MainSession
@@ -8,7 +9,7 @@ from schemas.marker import MarkerGetAllResponse, MarkerResponse
 from service.meta.marker_service_meta import MarkerServiceMeta
 
 # Main app database instance
-main_database = MainSession()
+db = MainSession()
 
 # Load environment variables
 load_dotenv()
@@ -37,7 +38,7 @@ class MarkerService(MarkerServiceMeta):
             NoMarkersError: Raised if no markers are found in the database.
         """
         try:
-            markers_data = main_database.query(Marker).all()
+            markers_data = db.query(Marker).all()
 
             markers_arr = []
 
@@ -53,6 +54,8 @@ class MarkerService(MarkerServiceMeta):
             markers_response = MarkerGetAllResponse(markers=markers_arr)
 
             return markers_response
-        except Exception:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Не удаётся получить маркеры")
-
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся получить маркеры")
+        finally:
+            db.close()

@@ -18,9 +18,6 @@ from database.models.api_key import ApiKey
 from schemas.api_key import ApiKeyResponse
 from service.meta.token_service_meta import TokenServiceMeta
 
-# Create database instance
-db = MainSession()
-
 # Load environment variables
 load_dotenv()
 
