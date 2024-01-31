@@ -68,7 +68,7 @@ class UserService(UserServiceMeta):
     def register_user(
             self,
             user: UserRegistrationRequest
-    ) -> TokenResponse:
+    ) -> dict:
         """
         Register a new user in application.
 
@@ -128,11 +128,7 @@ class UserService(UserServiceMeta):
                 role=new_user_role,
             )
 
-            token_response = TokenResponse(
-                token=token_service.tokenize(user_registration_response.model_dump())
-            )
-
-            return token_response
+            return user_registration_response.model_dump()
         except SQLAlchemyError:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -143,7 +139,7 @@ class UserService(UserServiceMeta):
     def login_user(
             self,
             user: UserLoginRequest
-    ) -> TokenResponse:
+    ) -> dict:
         """
         Login a user in application.
 
@@ -182,11 +178,7 @@ class UserService(UserServiceMeta):
                 role=matching_user_role,
             )
 
-            token_response = TokenResponse(
-                token=token_service.tokenize(user_logging_response.model_dump())
-            )
-
-            return token_response
+            return user_logging_response.model_dump()
         except SQLAlchemyError:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,

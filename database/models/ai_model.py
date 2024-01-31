@@ -10,7 +10,7 @@ class AIModel(Base):
     __tablename__ = 'ai_models'
 
     id = Column(Integer, primary_key=True)
-    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4())
+    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4)
     name = Column(String, nullable=False)
     categories_num = Column(Integer)
     train_amount = Column(Integer)

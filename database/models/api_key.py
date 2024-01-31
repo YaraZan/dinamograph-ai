@@ -10,7 +10,7 @@ class ApiKey(Base):
     __tablename__ = "api_keys"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4())
+    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4)
     user_id = Column(Integer, ForeignKey('users.id'))
     key = Column(String, unique=True, index=True)
 

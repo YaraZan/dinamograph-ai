@@ -1,5 +1,6 @@
 from fastapi import Depends, HTTPException, status, Header
 from sqlalchemy.exc import SQLAlchemyError
+from fastapi.security import OAuth2PasswordBearer
 
 from database.database import MainSession
 from database.models import User

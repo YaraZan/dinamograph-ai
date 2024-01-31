@@ -10,7 +10,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4())
+    public_id = Column(UUID(as_uuid=True), unique=True, default=uuid.uuid4)
 
     role_id = Column(Integer, ForeignKey('roles.id'))
 
