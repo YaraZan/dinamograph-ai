@@ -9,6 +9,7 @@ venv/
 ai/versions/
 
 storage/datasets/
+!storage/public/
 
 alembic/
 alembic.ini

@@ -7,19 +7,8 @@
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/dnm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/marker.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/marker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schemas/marker.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/marker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/dnm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/dnm_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/marker_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/marker_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/user_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/user_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/meta/dnm_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/dnm_service_meta.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/meta/marker_service_meta.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/meta/marker_service_meta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_main.http" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,38 +41,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;FastAPI.dinamogramm-converter.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ai.executor&quot;: &quot;Run&quot;,
-    &quot;Python.converter.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter/handlers&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "FastAPI.dinamogramm-converter.executor": "Run",
+    "Python.ai.executor": "Run",
+    "Python.converter.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/PotemkinYAA/Desktop/yarazanx-projects/helpers/dinamogramm-converter",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "terminal",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\handlers" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\database\trafficlight_models" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\exceptions" />
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\service\meta" />
-      <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\app\api\responces" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\PotemkinYAA\Desktop\yarazanx-projects\helpers\dinamogramm-converter\ai\versions" />
@@ -198,7 +187,7 @@
       <workItem from="1706587801913" duration="13169000" />
       <workItem from="1706673654949" duration="14770000" />
       <workItem from="1706759483513" duration="27348000" />
-      <workItem from="1706846710486" duration="12346000" />
+      <workItem from="1706846710486" duration="16279000" />
     </task>
     <servers />
   </component>
