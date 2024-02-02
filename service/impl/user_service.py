@@ -125,7 +125,7 @@ class UserService(UserServiceMeta):
                 email=new_user.email,
                 name=new_user.name,
                 public_id=str(new_user.public_id),
-                role=new_user_role,
+                role=new_user_role.model_dump(),
             )
 
             return user_registration_response.model_dump()
@@ -175,7 +175,7 @@ class UserService(UserServiceMeta):
                 email=matching_user.email,
                 name=matching_user.name,
                 public_id=str(matching_user.public_id),
-                role=matching_user_role,
+                role=matching_user_role.model_dump(),
             )
 
             return user_logging_response.model_dump()

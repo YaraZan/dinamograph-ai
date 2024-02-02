@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 
 from middleware.api_key import validate_api_key
@@ -23,7 +23,7 @@ async def get_random_dnm(
 
 @router.post("/dnm/")
 async def mark_dnm(
-        marking_data: DnmMarkRequest,
+        marking_data: List[DnmMarkRequest],
         dnm_service: DnmService = Depends(DnmService),
         _=Depends(validate_api_key),
 ):

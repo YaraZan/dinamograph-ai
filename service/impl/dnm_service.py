@@ -110,7 +110,7 @@ class DnmService(DnmServiceMeta):
             main_database.close()
             trafficLight_database.close()
 
-    def mark_dnm(self, marking_data: DnmMarkRequest):
+    def mark_dnm(self, marking_data: List[DnmMarkRequest]):
         """
         Mark a dinamogramm with the given marker.
 
@@ -122,24 +122,26 @@ class DnmService(DnmServiceMeta):
             InvalidMarkerError: Raised if given marker doesn't exist
         """
         try:
-            matching_dnm = main_database.query(Dnm).filter(Dnm.id == marking_data.id).first()
-            matching_marker = main_database.query(Marker).filter(Marker.id == marking_data.marker_id).first()
+            for marker_request in marking_data:
+                matching_dnm = main_database.query(Dnm).filter(Dnm.id == marker_request.id).first()
+                matching_marker = main_database.query(Marker).filter(Marker.id == marker_request.marker_id).first()
 
-            if matching_dnm is None:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
+                if matching_dnm is None:
+                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
 
-            if matching_marker is None:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный маркер для динамограммы")
+                if matching_marker is None:
+                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный маркер для динамограммы")
 
-            if matching_dnm.marker is not None:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
+                if matching_dnm.marker is not None:
+                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
 
-            output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marking_data.id}_{marking_data.marker_id}.png'
+                output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marker_request.id}_{marker_request.marker_id}.png'
 
-            shutil.copy(matching_dnm.clear_url, output_filename)
+                shutil.copy(matching_dnm.clear_url, output_filename)
 
-            matching_dnm.ready_url = output_filename
-            matching_dnm.marker = matching_marker
+                matching_dnm.ready_url = output_filename
+                matching_dnm.marker = matching_marker
+
             main_database.commit()
         except SQLAlchemyError:
             main_database.rollback()

@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Depends, status
-from starlette.responses import JSONResponse
+import json
+
+from fastapi import APIRouter, Depends, status, Response
+from fastapi.responses import JSONResponse
 
 from middleware.user import current_user
 from schemas.auth import TokenResponse
@@ -9,6 +11,10 @@ from service.impl.user_service import UserService
 
 # Create router instance
 router = APIRouter()
+
+@router.post("/")
+async def welcome():
+    return JSONResponse(content={"message": "Welcome!"})
 
 
 @router.post("/user/register")
@@ -22,10 +28,10 @@ async def register_user(
     user = user_service.register_user(registration_request)
     token = token_service.tokenize(user)
 
-    return {"token": token}
+    return {"at": token, "ud": {"role": user["role"]["name"]}}
 
 
-@router.post("/user/login", response_model=TokenResponse)
+@router.post("/user/login")
 async def login_user(
         login_request: UserLoginRequest,
         user_service: UserService = Depends(UserService),
@@ -35,7 +41,7 @@ async def login_user(
     user = user_service.login_user(login_request)
     token = token_service.tokenize(user)
 
-    return {"token": token }
+    return {"at": token, "ud": {"role": user["role"]["name"]}}
 
 
 @router.get("/user/me", response_model=UserResponse)

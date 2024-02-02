@@ -1,5 +1,6 @@
 from typing import Union, List, Dict
 
+from fastapi import File, UploadFile
 from pydantic import BaseModel
 
 
@@ -9,5 +10,6 @@ class MarkerResponse(BaseModel):
     url: str
 
 
-class MarkerGetAllResponse(BaseModel):
-    markers: List[MarkerResponse]
+class CreateMarkerRequest(BaseModel):
+    name: str
+    image: UploadFile = None

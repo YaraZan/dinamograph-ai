@@ -10,9 +10,9 @@ app = FastAPI()
 # Add CORS middleware to allow all origins (replace with your frontend URL in production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Set this to your frontend URL in production
+    allow_origins=["http://localhost:5173"],  # Set this to your frontend URL in production
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 

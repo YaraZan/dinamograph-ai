@@ -14,3 +14,6 @@ alembic/
 alembic.ini
 
 __pycache__
+
+cert.pem
+key.pem

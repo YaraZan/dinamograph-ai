@@ -1,7 +1,7 @@
 from typing import Annotated, Dict, Any, Optional, Union
 from fastapi import APIRouter, Depends, Header, UploadFile, File, HTTPException, status, Form
 
-from middleware.user import is_admin
+from middleware.user import is_admin, current_user
 from middleware.api_key import validate_api_key
 from schemas.ai import AIModelCreateRequest, AIModelUpdateRequest, AIModelGetAllResponse, AIModelResponse
 from schemas.dnm import DnmGetRandomResponse, DnmMarkRequest
@@ -17,7 +17,7 @@ router = APIRouter()
 @router.get("/ai/all", response_model=AIModelGetAllResponse)
 async def get_all_ai_models(
         ai_service: AIService = Depends(AIService),
-        _=Depends(is_admin),
+        _=Depends(current_user),
 ) -> AIModelGetAllResponse:
 
     return ai_service.get_all_models()
@@ -27,7 +27,7 @@ async def get_all_ai_models(
 async def get_model_details(
         model_public_id: str,
         ai_service: AIService = Depends(AIService),
-        _=Depends(is_admin),
+        _=Depends(current_user),
 ) -> AIModelResponse:
 
     return ai_service.get_model_detail(model_public_id)

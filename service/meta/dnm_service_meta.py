@@ -9,5 +9,5 @@ class DnmServiceMeta(ABC):
         pass
 
     @abstractmethod
-    def mark_dnm(self, marking_data: DnmMarkRequest):
+    def mark_dnm(self, marking_data: List[DnmMarkRequest]):
         pass

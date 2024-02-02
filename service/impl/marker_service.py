@@ -1,3 +1,6 @@
+import os
+from typing import List
+
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
@@ -5,7 +8,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from constants.constants import Constants
 from database.database import MainSession
 from database.models import Marker
-from schemas.marker import MarkerGetAllResponse, MarkerResponse
+from database.models.ai_marker import AIMarker
+from database.models.ai_model import AIModel
+from schemas.marker import MarkerResponse, CreateMarkerRequest
 from service.meta.marker_service_meta import MarkerServiceMeta
 
 # Main app database instance
@@ -27,7 +32,7 @@ class MarkerService(MarkerServiceMeta):
         for "Dinamograph-AI" datasets markup
 
     """
-    def get_all_markers(self) -> MarkerGetAllResponse:
+    def get_all_markers(self) -> List[MarkerResponse]:
         """
         Get all dinamogram categorical markers.
 
@@ -51,11 +56,67 @@ class MarkerService(MarkerServiceMeta):
                     )
                 )
 
-            markers_response = MarkerGetAllResponse(markers=markers_arr)
-
-            return markers_response
+            return markers_arr
         except SQLAlchemyError:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся получить маркеры")
+        finally:
+            db.close()
+
+    def get_markers_by_ai_model(self, model_public_id: str) -> List[MarkerResponse]:
+        matching_model = db.query(AIModel).filter(
+            AIModel.public_id == model_public_id).first()
+
+        if matching_model is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Модели с таким названием не существует"
+            )
+
+        used_markers = []
+
+        matching_markers = db.query(AIMarker).filter(AIMarker.ai_model_id == matching_model.id).all()
+
+        for marker in matching_markers:
+            used_markers.append(marker.original_marker)
+
+        return used_markers
+
+    def create_marker(self, create_marker_request: CreateMarkerRequest):
+        try:
+            url_path = f"{constants.STORAGE_DATASETS_MARKERS}/{create_marker_request.name.join('_')}.png"
+            file_path = os.path.join(constants.STORAGE_DATASETS_MARKERS, f"/{create_marker_request.name.join('_')}.png")
+
+            with open(file_path, "wb") as file:
+                file.write(create_marker_request.image.file.read())
+
+            new_marker = Marker(
+                name=create_marker_request.name.join('_'),
+                url=url_path
+            )
+            db.add(new_marker)
+            db.commit()
+
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Server: Не удаётся создать маркер")
+        finally:
+            db.close()
+
+    def delete_marker(self, marker_id):
+        try:
+            matching_marker = db.query(Marker).filter_by(id=marker_id).first()
+
+            if not matching_marker:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                    detail="Маркер не существует")
+
+            db.delete(matching_marker)
+            db.commit()
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                detail="Server: Не удаётся удалить маркер")
         finally:
             db.close()
