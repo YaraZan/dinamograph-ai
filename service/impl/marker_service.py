@@ -84,11 +84,18 @@ class MarkerService(MarkerServiceMeta):
 
     def create_marker(self, create_marker_request: CreateMarkerRequest):
         try:
-            url_path = f"{constants.STORAGE_DATASETS_MARKERS}/{create_marker_request.name.join('_')}.png"
-            file_path = os.path.join(constants.STORAGE_DATASETS_MARKERS, f"/{create_marker_request.name.join('_')}.png")
+            preprocessed_name = create_marker_request.name.replace(' ', '_')
 
-            with open(file_path, "wb") as file:
-                file.write(create_marker_request.image.file.read())
+            print(preprocessed_name)
+
+            url_path = f"{constants.STORAGE_DATASETS_MARKERS}/{preprocessed_name}.png"
+
+            try:
+                with open(url_path, "wb") as file:
+                    file.write(create_marker_request.image.file.read())
+                    file.close()
+            except Exception as e:
+                raise HTTPException(detail=f"{e}", status_code=500)
 
             new_marker = Marker(
                 name=create_marker_request.name.join('_'),
@@ -97,10 +104,10 @@ class MarkerService(MarkerServiceMeta):
             db.add(new_marker)
             db.commit()
 
-        except SQLAlchemyError:
+        except SQLAlchemyError as e:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                                detail="Server: Не удаётся создать маркер")
+                                detail=f"Server: Не удаётся создать маркер, {e}")
         finally:
             db.close()
 
@@ -111,6 +118,10 @@ class MarkerService(MarkerServiceMeta):
             if not matching_marker:
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                     detail="Маркер не существует")
+
+            file_path = matching_marker.url
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
             db.delete(matching_marker)
             db.commit()

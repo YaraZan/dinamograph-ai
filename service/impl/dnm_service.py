@@ -1,9 +1,11 @@
+import os
 import shutil
 from typing import List, Any
 
 from dotenv import load_dotenv
 from fastapi import HTTPException, status
 from matplotlib import pyplot as plt
+from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from ai.helpers.data_helper import DataHelper
@@ -11,7 +13,7 @@ from constants.constants import Constants
 from database.database import MainSession, TrafficLightSession
 from database.models import Dnm, Marker
 from database.trafficlight_models import Dnmh, DnmPoint
-from schemas.dnm import DnmMarkRequest, DnmGetRandomResponse
+from schemas.dnm import DnmMarkRequest, DnmGetRandomResponse, DnmResponse
 from service.meta.dnm_service_meta import DnmServiceMeta
 
 # Create database instances
@@ -37,6 +39,35 @@ class DnmService(DnmServiceMeta):
         app database.
 
     """
+    def get_all_dnm(self) -> List[DnmResponse]:
+        try:
+            dnm_raw = main_database.query(Dnm).all()
+
+            dnm_list = []
+
+            for dnm in dnm_raw:
+                query = text('SELECT "name" FROM "users" where "public_id" = :aid')
+
+                matching_author_name = trafficLight_database.execute(query, {'aid': dnm.authored_id}).fetchone()
+                matching_marker = main_database.query(Marker).filter(Marker.id == dnm.marker_id).first()
+
+                dnm_list.append(DnmResponse(
+                    id=dnm.id,
+                    author=matching_author_name[0],
+                    marker=matching_marker.name if matching_marker else None,
+                    raw_url=dnm.raw_url,
+                ))
+
+            return dnm_list
+
+        except SQLAlchemyError as e:
+            main_database.rollback()
+            trafficLight_database.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Server: Не удаётся получить динамограммы, {e}")
+        finally:
+            main_database.close()
+            trafficLight_database.close()
+
     def get_random_dnm(self, user_public_id: str) -> DnmGetRandomResponse:
         """
         Get a random unplaced dinamogramm.
@@ -143,6 +174,34 @@ class DnmService(DnmServiceMeta):
                 matching_dnm.marker = matching_marker
 
             main_database.commit()
+        except SQLAlchemyError:
+            main_database.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся промаркеровать динамограмму")
+        finally:
+            main_database.close()
+
+    def delete_dnm(self, dnm_id: int):
+        try:
+            matching_dnm = main_database.query(Dnm).filter(Dnm.id == dnm_id).first()
+
+            if matching_dnm is None:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
+
+            if matching_dnm.raw_url:
+                if os.path.exists(matching_dnm.raw_url):
+                    os.remove(matching_dnm.raw_url)
+
+            if matching_dnm.clear_url:
+                if os.path.exists(matching_dnm.clear_url):
+                    os.remove(matching_dnm.clear_url)
+
+            if matching_dnm.ready_url:
+                if os.path.exists(matching_dnm.ready_url):
+                    os.remove(matching_dnm.ready_url)
+
+            main_database.delete(matching_dnm)
+            main_database.commit()
+
         except SQLAlchemyError:
             main_database.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся промаркеровать динамограмму")

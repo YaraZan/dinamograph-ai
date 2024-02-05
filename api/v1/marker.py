@@ -32,7 +32,7 @@ async def get_markers_by_ai(
     return marker_service.get_markers_by_ai_model(model_public_id)
 
 
-@router.post("/marker/")
+@router.post("/marker/create")
 async def create_marker(
         marker_service: MarkerService = Depends(MarkerService),
         name: str = Form(...),
