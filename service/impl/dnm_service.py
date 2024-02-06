@@ -163,15 +163,22 @@ class DnmService(DnmServiceMeta):
                 if matching_marker is None:
                     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Неверный маркер для динамограммы")
 
-                if matching_dnm.marker is not None:
-                    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма уже промаркерована")
-
                 output_filename = f'{constants.STORAGE_DATASETS_READY}/д_{marker_request.id}_{marker_request.marker_id}.png'
-
                 shutil.copy(matching_dnm.clear_url, output_filename)
 
-                matching_dnm.ready_url = output_filename
-                matching_dnm.marker = matching_marker
+                if marking_data.index(marker_request) is not 0:
+                    new_dnm = Dnm(
+                        dnmh_id=matching_dnm.dnmh_id,
+                        marker=matching_marker,
+                        raw_url=matching_dnm.raw_url,
+                        clear_url=matching_dnm.clear_url,
+                        ready_url=output_filename,
+                        authored_id=matching_dnm.authored_id,
+                    )
+                    main_database.add(new_dnm)
+                else:
+                    matching_dnm.ready_url = output_filename
+                    matching_dnm.marker = matching_marker
 
             main_database.commit()
         except SQLAlchemyError:

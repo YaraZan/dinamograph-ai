@@ -1,9 +1,11 @@
-from typing import Annotated, Dict, Any, Optional, Union
+from typing import Annotated, Dict, Any, Optional, Union, List
 from fastapi import APIRouter, Depends, Header, UploadFile, File, HTTPException, status, Form
+from pydantic import BaseModel
 
 from middleware.user import is_admin, current_user
 from middleware.api_key import validate_api_key
-from schemas.ai import AIModelCreateRequest, AIModelUpdateRequest, AIModelGetAllResponse, AIModelResponse
+from schemas.ai import AIModelCreateRequest, AIModelUpdateRequest, AIModelGetAllResponse, AIModelResponse, \
+    PredictByRawRequest
 from schemas.dnm import DnmGetRandomResponse, DnmMarkRequest
 from service.impl.ai_service import AIService
 from service.impl.api_key_service import ApiKeyService
@@ -63,19 +65,32 @@ async def delete_model(
     return ai_service.delete_model(model_public_id)
 
 
-@router.post("/ai/predict")
-async def predict_by_model(
+@router.post("/ai/predict/image")
+async def predict_by_image(
         ai_service: AIService = Depends(AIService),
         _=Depends(validate_api_key),
         model_name: str = Form(...),
-        image: Optional[UploadFile] = File(None),
-        is_raw: bool = Form(False),
-        raw: Optional[Dict[Any, Any]] = Form(None)
+        image: UploadFile = File(...),
 ):
 
     return await ai_service.predict(
         model_name=model_name,
         image=image,
-        is_raw=is_raw,
-        raw=raw
+        is_raw=False,
+        raw=None
+    )
+
+
+@router.post("/ai/predict/raw")
+async def predict_by_raw_data(
+        predict_by_raw_request: PredictByRawRequest,
+        ai_service: AIService = Depends(AIService),
+        _=Depends(validate_api_key),
+):
+
+    return await ai_service.predict(
+        model_name=predict_by_raw_request.model_name,
+        image=None,
+        is_raw=True,
+        raw=predict_by_raw_request.raw_data
     )

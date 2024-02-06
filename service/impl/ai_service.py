@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, List, Dict, Optional
 
 from fastapi import UploadFile, File, HTTPException, status
+from sqlalchemy import Numeric
 from sqlalchemy.exc import SQLAlchemyError
 
 from ai.core.dinamograph import create_model, predict
@@ -31,6 +32,7 @@ class AIService(AIServiceMeta):
                 models.append(AIModelResponse(
                     name=model.name,
                     public_id=str(model.public_id),
+                    is_public=model.is_public,
                     created_at=model.created_at,
                     categories_num=model.categories_num,
                     train_amount=model.train_amount,
@@ -59,6 +61,7 @@ class AIService(AIServiceMeta):
             return AIModelResponse(
                 name=matching_model.name,
                 public_id=str(matching_model.public_id),
+                is_public=matching_model.is_public,
                 created_at=matching_model.created_at,
                 categories_num=matching_model.categories_num,
                 train_amount=matching_model.train_amount,
@@ -114,7 +117,12 @@ class AIService(AIServiceMeta):
                     detail="Модели с таким названием не существует"
                 )
 
-            matching_model.name = model_update_request.new_name
+            if model_update_request.is_public is not None:
+                matching_model.is_public = model_update_request.is_public
+
+            if model_update_request.name is not None:
+                matching_model.name = model_update_request.new_name
+
             db.commit()
         except SQLAlchemyError:
             db.rollback()
@@ -146,7 +154,7 @@ class AIService(AIServiceMeta):
             model_name: str,
             is_raw: bool = False,
             image: Optional[UploadFile] = File(None),
-            raw: Optional[Dict[Any, Any]] = None,
+            raw: list = None,
     ) -> str:
         try:
             matching_model = db.query(AIModel).filter(AIModel.name == model_name).first()
@@ -155,7 +163,12 @@ class AIService(AIServiceMeta):
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Модели с таким названием не существует")
 
             if is_raw and raw is not None:
-                image_bytes = data_helper.create_image_bytes_from_raw(raw['x'], raw['y'])
+                sorted_raw = sorted(raw, key=lambda x: x['P'], reverse=True)
+
+                x_values = [float(dnm['X']) if isinstance(dnm['X'], str) else dnm['X'] for dnm in sorted_raw]
+                y_values = [int(dnm['Y']) if isinstance(dnm['Y'], str) else dnm['Y'] for dnm in sorted_raw]
+
+                image_bytes = data_helper.create_image_bytes_from_raw(x_values, y_values)
             else:
                 image_bytes = await image.read()
 

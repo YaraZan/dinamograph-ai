@@ -112,7 +112,7 @@ class DataHelper:
             plt.close()
 
     @staticmethod
-    def create_image_bytes_from_raw(x_values, y_values):
+    def create_image_bytes_from_raw(x_values: List, y_values: List):
         """
         Creates a black and white version of the plot and returns the bytes of the created image.
 
@@ -139,6 +139,7 @@ class DataHelper:
 
         image_bytes_io = io.BytesIO()
         fig.savefig(image_bytes_io, format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
+        plt.show()
         plt.close()
 
         return image_bytes_io.getvalue()

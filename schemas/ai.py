@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class AIModelResponse(BaseModel):
     name: str
     public_id: str
+    is_public: bool
     created_at: datetime
     categories_num: int
     train_amount: int
@@ -19,7 +20,8 @@ class AIModelGetAllResponse(BaseModel):
 
 class AIModelUpdateRequest(BaseModel):
     model_public_id: str
-    new_name: str
+    is_public: Optional[bool] = None
+    new_name: Optional[str] = None
 
 
 class AIModelCreateRequest(BaseModel):
@@ -32,3 +34,8 @@ class AIModelPredictRequest(BaseModel):
     is_raw: bool = False
     image: Optional[UploadFile] = File(None)
     raw: Optional[Dict[Any, Any]] = None
+
+
+class PredictByRawRequest(BaseModel):
+    model_name: str
+    raw_data: list
