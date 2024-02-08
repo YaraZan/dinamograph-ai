@@ -139,7 +139,7 @@ class DataHelper:
 
         image_bytes_io = io.BytesIO()
         fig.savefig(image_bytes_io, format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
-        plt.show()
+        # plt.show()
         plt.close()
 
         return image_bytes_io.getvalue()

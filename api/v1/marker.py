@@ -46,7 +46,7 @@ async def create_marker(
     ))
 
 
-@router.delete("/marker/{marker_id}")
+@router.delete("/marker/delete/{marker_id}")
 async def delete_marker(
         marker_id: int,
         marker_service: MarkerService = Depends(MarkerService),

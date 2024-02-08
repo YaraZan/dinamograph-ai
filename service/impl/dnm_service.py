@@ -194,6 +194,9 @@ class DnmService(DnmServiceMeta):
             if matching_dnm is None:
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Динамограмма пустая")
 
+            main_database.delete(matching_dnm)
+            main_database.commit()
+
             if matching_dnm.raw_url:
                 if os.path.exists(matching_dnm.raw_url):
                     os.remove(matching_dnm.raw_url)
@@ -205,9 +208,6 @@ class DnmService(DnmServiceMeta):
             if matching_dnm.ready_url:
                 if os.path.exists(matching_dnm.ready_url):
                     os.remove(matching_dnm.ready_url)
-
-            main_database.delete(matching_dnm)
-            main_database.commit()
 
         except SQLAlchemyError:
             main_database.rollback()

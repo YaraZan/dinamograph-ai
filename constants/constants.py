@@ -15,4 +15,5 @@ class Constants:
     STORAGE_DATASETS_CLEAR = "storage/datasets/clear"
     STORAGE_DATASETS_READY = "storage/datasets/ready"
     STORAGE_DATASETS_TRAIN = "storage/datasets/_train"
+    AI_MODELS_VERSIONS = "ai/versions"
 

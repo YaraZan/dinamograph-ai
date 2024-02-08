@@ -1,3 +1,5 @@
+import os
+import shutil
 from typing import List, Any
 
 import numpy as np
@@ -9,6 +11,7 @@ from keras.models import load_model
 
 from ai.helpers.data_helper import DataHelper
 from ai.helpers.image_helper import ImageHelper
+from constants.constants import Constants
 
 """
 *   Dinamograph-AI v1.0
@@ -23,6 +26,8 @@ image_helper = ImageHelper()
 # DataHelper instance
 data_helper = DataHelper()
 
+# Constants instance
+constants = Constants()
 
 def create_model(
         model_name: str,
@@ -62,6 +67,8 @@ def create_model(
     model.fit(x, LabelEncoder().fit_transform(y), epochs=epochs, validation_split=0.2)
 
     model.save(f'ai/versions/{model_name}.h5')
+
+    shutil.rmtree(constants.STORAGE_DATASETS_TRAIN)
 
     return num_images, markers
 

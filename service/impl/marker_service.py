@@ -64,31 +64,42 @@ class MarkerService(MarkerServiceMeta):
             db.close()
 
     def get_markers_by_ai_model(self, model_public_id: str) -> List[MarkerResponse]:
-        matching_model = db.query(AIModel).filter(
-            AIModel.public_id == model_public_id).first()
+        try:
+            matching_model = db.query(AIModel).filter(
+                AIModel.public_id == model_public_id).first()
 
-        if matching_model is None:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Модели с таким названием не существует"
-            )
+            if matching_model is None:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Модели с таким названием не существует"
+                )
 
-        used_markers = []
+            used_markers = []
 
-        matching_markers = db.query(AIMarker).filter(AIMarker.ai_model_id == matching_model.id).all()
+            matching_markers = db.query(AIMarker).filter(AIMarker.ai_model_id == matching_model.id).all()
 
-        for marker in matching_markers:
-            used_markers.append(marker.original_marker)
+            for marker in matching_markers:
+                used_markers.append(marker.original_marker)
 
-        return used_markers
+            return used_markers
+        except SQLAlchemyError:
+            db.rollback()
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся получить маркеры")
+        finally:
+            db.close()
 
     def create_marker(self, create_marker_request: CreateMarkerRequest):
         try:
             preprocessed_name = create_marker_request.name.replace(' ', '_')
 
-            print(preprocessed_name)
-
             url_path = f"{constants.STORAGE_DATASETS_MARKERS}/{preprocessed_name}.png"
+
+            new_marker = Marker(
+                name=preprocessed_name,
+                url=url_path
+            )
+            db.add(new_marker)
+            db.commit()
 
             try:
                 with open(url_path, "wb") as file:
@@ -96,13 +107,6 @@ class MarkerService(MarkerServiceMeta):
                     file.close()
             except Exception as e:
                 raise HTTPException(detail=f"{e}", status_code=500)
-
-            new_marker = Marker(
-                name=create_marker_request.name.join('_'),
-                url=url_path
-            )
-            db.add(new_marker)
-            db.commit()
 
         except SQLAlchemyError as e:
             db.rollback()
@@ -119,12 +123,13 @@ class MarkerService(MarkerServiceMeta):
                 raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                     detail="Маркер не существует")
 
+            db.delete(matching_marker)
+            db.commit()
+
             file_path = matching_marker.url
             if os.path.exists(file_path):
                 os.remove(file_path)
 
-            db.delete(matching_marker)
-            db.commit()
         except SQLAlchemyError:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

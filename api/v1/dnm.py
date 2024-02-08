@@ -43,8 +43,8 @@ async def mark_dnm(
     return dnm_service.mark_dnm(marking_data)
 
 
-@router.delete("/dnm/delete")
-async def get_all_dnm(
+@router.delete("/dnm/delete/{dnm_id}")
+async def delete_dnm(
         dnm_id: int,
         dnm_service: DnmService = Depends(DnmService),
         _=Depends(is_admin),

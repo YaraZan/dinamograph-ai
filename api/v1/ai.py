@@ -16,13 +16,32 @@ from service.impl.token_service import TokenService
 router = APIRouter()
 
 
-@router.get("/ai/all", response_model=AIModelGetAllResponse)
+@router.get("/ai/models", response_model=AIModelGetAllResponse)
 async def get_all_ai_models(
         ai_service: AIService = Depends(AIService),
-        _=Depends(current_user),
+        _=Depends(validate_api_key),
 ) -> AIModelGetAllResponse:
 
     return ai_service.get_all_models()
+
+
+@router.get("/ai/models/{model_public_id}", response_model=AIModelResponse)
+async def get_single_ai_model(
+        model_public_id: str,
+        ai_service: AIService = Depends(AIService),
+        _=Depends(validate_api_key),
+) -> AIModelResponse:
+
+    return ai_service.get_model_detail(model_public_id)
+
+
+@router.get("/ai/all", response_model=AIModelGetAllResponse)
+async def get_all_ai_models(
+        ai_service: AIService = Depends(AIService),
+        _=Depends(is_admin),
+) -> AIModelGetAllResponse:
+
+    return ai_service.get_all_models(with_private=True)
 
 
 @router.get("/ai/{model_public_id}", response_model=AIModelResponse)
@@ -55,7 +74,7 @@ async def update_model(
     return ai_service.update_model(update_model_request)
 
 
-@router.delete("/ai/delete")
+@router.delete("/ai/delete/{model_public_id}")
 async def delete_model(
         model_public_id: str,
         ai_service: AIService = Depends(AIService),

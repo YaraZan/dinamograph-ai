@@ -1,12 +1,13 @@
+import os
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict, Optional
 
 from fastapi import UploadFile, File, HTTPException, status
-from sqlalchemy import Numeric
 from sqlalchemy.exc import SQLAlchemyError
 
 from ai.core.dinamograph import create_model, predict
 from ai.helpers.data_helper import DataHelper
+from constants.constants import Constants
 from database.database import MainSession
 from database.models import Marker
 from database.models.ai_marker import AIMarker
@@ -20,11 +21,17 @@ db = MainSession()
 # DataHelper instance
 data_helper = DataHelper()
 
+# Constants instance
+constants = Constants()
+
 
 class AIService(AIServiceMeta):
-    def get_all_models(self) -> AIModelGetAllResponse:
+    def get_all_models(self, with_private: bool = False) -> AIModelGetAllResponse:
         try:
-            ai_models = db.query(AIModel).all()
+            if with_private:
+                ai_models = db.query(AIModel).order_by(AIModel.created_at.desc()).all()
+            else:
+                ai_models = db.query(AIModel).filter(AIModel.is_public == True).order_by(AIModel.created_at.desc()).all()
 
             models = []
 
@@ -120,7 +127,7 @@ class AIService(AIServiceMeta):
             if model_update_request.is_public is not None:
                 matching_model.is_public = model_update_request.is_public
 
-            if model_update_request.name is not None:
+            if model_update_request.new_name is not None:
                 matching_model.name = model_update_request.new_name
 
             db.commit()
@@ -143,6 +150,13 @@ class AIService(AIServiceMeta):
 
             db.delete(matching_model)
             db.commit()
+
+            if matching_model.name:
+                model_path = f'{constants.AI_MODELS_VERSIONS}/{matching_model.name}.h5'
+
+                if os.path.exists(model_path):
+                    os.remove(model_path)
+
         except SQLAlchemyError:
             db.rollback()
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Server: Не удаётся удалить модель")
