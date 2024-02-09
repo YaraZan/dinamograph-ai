@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/public/logo.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +195,7 @@
       <workItem from="1707365110375" duration="335000" />
       <workItem from="1707365799856" duration="17883000" />
       <workItem from="1707455773382" duration="5705000" />
-      <workItem from="1707478256715" duration="59000" />
+      <workItem from="1707478256715" duration="1074000" />
     </task>
     <servers />
   </component>

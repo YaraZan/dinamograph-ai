@@ -1,5 +1,5 @@
 
-![Logo](storage/public/logo.png)
+![Logo](storage/public/readme_logo.png)
 
 
 # Динамограф AI
