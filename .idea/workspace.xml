@@ -5,26 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe35a879-10f3-4d27-bfed-51df31c72bfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a/storage_v2/_src_/database/pgLightDB.HYbsFg/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a/storage_v2/_src_/database/pgLightDB.HYbsFg/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a/storage_v2/_src_/database/pgLightDB.HYbsFg/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a/storage_v2/_src_/database/pgLightDB.HYbsFg/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17dfd397-c27a-46a3-a19f-aa3d5d1fe68a/storage_v2/_src_/database/pgLightDB.HYbsFg/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c4da5678-b511-4490-abe4-e5fde5c6ce12/storage_v2/_src_/database/dinamograph.9NSAtg/schema/information_schema.FNRwLQ.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/core/dinamograph.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/core/dinamograph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/helpers/data_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai/helpers/data_helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/dnm.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/dnm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/v1/marker.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/v1/marker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/ai_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/ai_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/dnm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/dnm_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/impl/marker_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/service/impl/marker_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/public/logo.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +195,8 @@
       <workItem from="1707191256762" duration="21963000" />
       <workItem from="1707277932000" duration="13731000" />
       <workItem from="1707365110375" duration="335000" />
-      <workItem from="1707365799856" duration="12446000" />
+      <workItem from="1707365799856" duration="17883000" />
+      <workItem from="1707455773382" duration="4775000" />
     </task>
     <servers />
   </component>
