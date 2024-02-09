@@ -10,11 +10,10 @@
 а также клиентским приложением [**Динамограф**](https://github.com/YaraZan/dinamograph-client).
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-
-![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white)
-![Keras](https://img.shields.io/badge/Keras-%23D00000.svg?style=for-the-badge&logo=Keras&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?plastic&logo=TensorFlow&logoColor=white)
+![Keras](https://img.shields.io/badge/Keras-%23D00000.svg?plastic&logo=Keras&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?plastic&logo=fastapi)
+![Python](https://img.shields.io/badge/python-3670A0?plastic&logo=python&logoColor=ffdd54)
 
 
 ## v1
